@@ -1,0 +1,10 @@
+body {
+    background-color: darkslategray;
+}
+
+canvas {
+    background-color: aquamarine;
+    width: 200px;
+    height: 100px;
+    border: 1px solid #ffffff;
+}
