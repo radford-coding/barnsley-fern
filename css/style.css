@@ -4,7 +4,12 @@ body {
 
 canvas {
     background-color: aquamarine;
-    width: 200px;
-    height: 100px;
+    /* width: 200px;
+    height: 200px; */
     border: 1px solid #ffffff;
+    margin: 20px;
+}
+
+#Barnsley {
+    display: none;
 }
