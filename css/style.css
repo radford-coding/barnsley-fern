@@ -4,10 +4,17 @@ body {
 
 canvas {
     background-color: darkslategray;
-    width: 200px;
-    height: 200px;
-    border: 1px solid antiquewhite;
-    margin: 20px;
+}
+
+nav {
+    display: flex;
+    color: white;
+    flex-flow: row nowrap;
+    justify-content: space-between;
+}
+
+nav:hover {
+    cursor: pointer;
 }
 
 #Barnsley {

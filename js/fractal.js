@@ -3,73 +3,68 @@
 // https://en.wikipedia.org/wiki/Barnsley_fern#Construction
 
 
-let canvas, context, width, height, currentPoint, pointA, pointB, pointC;
+let canvas, context, width, height, currentPoint;
 
+/*--------Sierpinski's Triangle----------*/
 
-// ! wow. need to set canvas' width and height inline, as that overrides the specificity of the default width/height values.
-const initializeCanvas = function() {
-    canvas = document.getElementById('Serpinski');
+let pointA, pointB, pointC;
+
+const initializeSierpinskiCanvas = function() {
+    canvas = document.getElementById('Sierpinski'); // cached element reference
     context = canvas.getContext('2d');
-    context.fillStyle = 'white';
-    // context.fillRect(0, 0, 50, 50);
-    width = canvas.width;
-    height = canvas.height;
+    canvas.width = width = window.innerWidth; // use the full window
+    canvas.height = height = window.innerHeight;
+    context.fillStyle = 'white'; // white dots
+    // three reference points for Sierpinski's Triangle
+    pointA = new Point(0, 0);
+    pointB = new Point(width/2, height);
+    pointC = new Point(width, 0);
+    // start somewhere random on the page
+    currentPoint = new Point(Math.random() * width, Math.random() * height);
 };
 
-const randomDot = function() {
-    let x = Math.random() * width;
-    let y = Math.random() * height;
-    context.fillRect(x, y, 2, 2);
+class Point {
+    constructor(x, y) {
+        this.x = x;
+        this.y = y;
+    };
 };
 
-initializeCanvas();
+const placeDot = function() {
+    // choose a random destination point
+    let r = Math.random();
+    let destination;
+    if (r < 1/3) {
+        destination = pointA;
+    } else if (r < 2/3) {
+        destination = pointB;
+    } else {
+        destination = pointC;
+    };
+    // make a new point halfway to it
+    currentPoint = new Point(currentPoint.x + ((destination.x - currentPoint.x)/2), currentPoint.y + ((destination.y - currentPoint.y)/2));
+    // display new point
+    context.fillRect(currentPoint.x, currentPoint.y, 1, 1);
+};
+// initialize
+initializeSierpinskiCanvas();
+// repeatedly create new points
+setInterval(placeDot, 0);
 
-setInterval(randomDot, 30);
 
 
 
-// const drawPoint = function(point) {
-//     context.fillRect(point.x+0.5, point.y+0.5, 2, 2);
-// };
+/*----cached element references and event listeners to switch the fractal display----*/
 
-// const Point = function(x, y) {
-//     this.x = x;
-//     this.y = y;
-// };
+const clickSierpinski = document.getElementById('clickSierpinski');
+const showSierpinski = document.getElementById('Sierpinski');
 
-// const initializeCanvas = function() {
-//     canvas = document.getElementById('Serpinski');
-//     context = canvas.getContext('2d');
-//     context.fillStyle = '#FFFFFF';
-//     currentPoint = new Point(0.5, 0.5); // eventually start somewhere random
-//     pointA = new Point(0, 0);
-//     pointB = new Point(100*Math.sin(Math.PI/6), 100*Math.cos(Math.PI/6));
-//     pointC = new Point(100, 0);
-//     width = window.innerWidth;
-//     height = window.innerHeight;
-//     console.log(width, height);
-//     canvas.width = width;
-//     canvas.height = height;
-//     [currentPoint, pointA, pointB, pointC].forEach(p => drawPoint(p));
-// };
 
-// const serpinskiTransformation = function(start, destination) {
-//     return new Point((start.x + destination.x)/2, (start.y + destination.y)/2);
-// };
+const handleSierpinski = function(e) {
+    showSierpinski.style.display = showSierpinski.style.display === 'none' ? '' : 'none';
+    // restart fractal
+    initializeSierpinskiCanvas();
+    setInterval(placeDot, 0);
+};
 
-// const chooseRandomDestination = function() {
-//     return [pointA, pointB, pointC][Math.floor(Math.random() * 3)];
-// };
-
-// const convertMath2Canvas = function(point) {
-//     return new Point(80*point.x + width/2, (-50*point.y+height/2)+250);
-// };
-
-// const step = function() {
-//     currentPoint = serpinskiTransformation(currentPoint, chooseRandomDestination);
-//     drawPoint(convertMath2Canvas(currentPoint));
-// };
-
-// initializeCanvas();
-
-// setInterval(step, 0);
+clickSierpinski.addEventListener('click', handleSierpinski);
