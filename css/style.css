@@ -1,12 +1,12 @@
 body {
-    background-color: darkslategray;
+    background-color: black;
 }
 
 canvas {
-    background-color: aquamarine;
-    /* width: 200px;
-    height: 200px; */
-    border: 1px solid #ffffff;
+    background-color: darkslategray;
+    width: 200px;
+    height: 200px;
+    border: 1px solid antiquewhite;
     margin: 20px;
 }
 
