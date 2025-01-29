@@ -11,5 +11,6 @@ Goals:
 - [x] Cement good coding practices
 - [x] Learn how to draw on the canvas element
 - [x] Write first JS class
+- [ ] Remember to name the repo appropriately (maybe next time I'll broaden the name scope lol)
 
 Hopefully you enjoy these simple visuals!
