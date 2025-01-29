@@ -5,12 +5,30 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <script defer src="./js/fractal.js"></script>
     <link rel="stylesheet" href="./css/style.css">
-    <title>fractals</title>
+    <title>Chaos Game Fractals</title>
 </head>
 <body>
-    <nav>
-        <button id="clickSierpinski">Sierpiński</button>
-    </nav>
+    <header class="header">
+        <label id="hamburger-icon" for="hamburger-btn">
+          <div class="line"></div>
+          <div class="line"></div>
+          <div class="line"></div>
+        </label>
+        <input id="hamburger-btn" type="checkbox">
+      
+        <nav>
+          <ul class="menu">
+            <li><h2>Choose a fractal:</h3></li>
+            <li><p id="clickSierpinski">Sierpiński</a></li>
+            <li><p>About</a></li>
+            <li><p>Shop</a></li>
+            <li><p>Contact</a></li>
+            <li><p>Climate Pledge</a></li>
+          </ul>
+        </nav>
+      </header>
+      
+      
     <canvas id="Barnsley"></canvas>
     <canvas id="Sierpinski"></canvas>
     

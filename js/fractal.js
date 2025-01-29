@@ -2,12 +2,22 @@
 // https://www.w3schools.com/html/html5_canvas.asp
 // https://en.wikipedia.org/wiki/Barnsley_fern#Construction
 
+class Point {
+    constructor(x, y) {
+        this.x = x;
+        this.y = y;
+    };
+};
 
 let canvas, context, width, height, currentPoint;
 
+const jumpToNewPoint = function(point0, point1, ratio) { // will go too far for ratio < 1
+    return new Point(point0.x + ((point1.x - point0.x)/ratio), point0.y + ((point1.y - point0.y)/ratio)); // new point a distance of 1/ratio from point0 to point1
+};
+
 /*--------Sierpinski's Triangle----------*/
 
-let pointA, pointB, pointC;
+let vertices = [];
 
 const initializeSierpinskiCanvas = function() {
     canvas = document.getElementById('Sierpinski'); // cached element reference
@@ -16,43 +26,24 @@ const initializeSierpinskiCanvas = function() {
     canvas.height = height = window.innerHeight;
     context.fillStyle = 'white'; // white dots
     // three reference points for Sierpinski's Triangle
-    pointA = new Point(0, 0);
-    pointB = new Point(width/2, height);
-    pointC = new Point(width, 0);
+    vertices = [];
+    vertices.push(new Point(0, 0));
+    vertices.push(new Point(width/2, height));
+    vertices.push(new Point(width, 0));
     // start somewhere random on the page
     currentPoint = new Point(Math.random() * width, Math.random() * height);
+    // repeatedly create new points
+    setInterval(placeSierpinskiDot, 0);
 };
 
-class Point {
-    constructor(x, y) {
-        this.x = x;
-        this.y = y;
-    };
+const placeSierpinskiDot = function() {
+    let destination = vertices[Math.floor(Math.random() * vertices.length)]; // choose a random destination point from the available vertices
+    currentPoint = jumpToNewPoint(currentPoint, destination, 2); // ratio = 2
+    context.fillRect(currentPoint.x, currentPoint.y, 1, 1); // display new point
 };
 
-const placeDot = function() {
-    // choose a random destination point
-    let r = Math.random();
-    let destination;
-    if (r < 1/3) {
-        destination = pointA;
-    } else if (r < 2/3) {
-        destination = pointB;
-    } else {
-        destination = pointC;
-    };
-    // make a new point halfway to it
-    currentPoint = new Point(currentPoint.x + ((destination.x - currentPoint.x)/2), currentPoint.y + ((destination.y - currentPoint.y)/2));
-    // display new point
-    context.fillRect(currentPoint.x, currentPoint.y, 1, 1);
-};
 // initialize
 initializeSierpinskiCanvas();
-// repeatedly create new points
-setInterval(placeDot, 0);
-
-
-
 
 /*----cached element references and event listeners to switch the fractal display----*/
 
@@ -61,10 +52,18 @@ const showSierpinski = document.getElementById('Sierpinski');
 
 
 const handleSierpinski = function(e) {
-    showSierpinski.style.display = showSierpinski.style.display === 'none' ? '' : 'none';
+    // showSierpinski.style.display = showSierpinski.style.display === 'none' ? '' : 'none';
+    showSierpinski.style.display = '';
     // restart fractal
     initializeSierpinskiCanvas();
-    setInterval(placeDot, 0);
 };
 
 clickSierpinski.addEventListener('click', handleSierpinski);
+
+
+// TODO
+// use just the one canvas instead of show/hide
+// find more chaos game fractals https://en.wikipedia.org/wiki/Chaos_game
+// generalize functions - 
+//      
+// 
