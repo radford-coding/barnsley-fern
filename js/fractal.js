@@ -60,9 +60,6 @@ const placeSierpinskiDot = function() {
     context.fillRect(currentPoint.x, currentPoint.y, 1, 1); // display new point
 };
 
-// initialize
-initializeSierpinski();
-
 /*--------Vicsek Fractal, saltire form----------*/
 
 const initializeVicsek = function() {
@@ -97,7 +94,6 @@ const initializeBarnsley = function() {
 const placeBarnsleyDot = function() {
     // choose random affine transformation
     currentPoint = barnsleyTransform[Math.floor(Math.random() * 100)](currentPoint);
-    console.log(currentPoint);
     let offset = width/2;
     let scaleFactor = 92;
     context.fillRect(currentPoint.scaleX(scaleFactor) + offset, currentPoint.scaleY(scaleFactor), 1, 1); // display new point
@@ -111,6 +107,7 @@ const affineTransform = function(p, a, b, c, d, e, f) { // point p
     return new Point(a * p.x + b * p.y + e, c * p.x + d * p.y + f);
 };
 
+// the 4 different affine transformations used for Barnsley's
 const f1 = (point) => {
     return affineTransform(point, 0, 0, 0, 0.16, 0, 0);
 };
@@ -127,6 +124,9 @@ const f4 = (point) => {
     return affineTransform(point, -0.15, 0.28, 0.26, 0.24, 0, 0.44);
 };
 
+// Rather than access the appropriate transformation later on with a random choice,
+// we can enumerate the various options and then access using Math.floor(Math.random() * 100) later.
+// This skips a for() loop from what I've seen of other approaches.
 const barnsleyTransform = [
     Array(1).fill(f1),
     Array(85).fill(f2),
@@ -156,9 +156,6 @@ clickSierpinski.addEventListener('click', handleSierpinski);
 clickVicsek.addEventListener('click', handleVicsek);
 clickBarnsley.addEventListener('click', handleBarnsley);
 
-// TODO
-// use just the one canvas instead of show/hide
-// find more chaos game fractals https://en.wikipedia.org/wiki/Chaos_game
-// generalize functions - 
-//      
-// 
+
+// initialize
+initializeBarnsley();
